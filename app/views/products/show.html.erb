@@ -25,6 +25,95 @@
         </dl>
       </div>
     </div>
+    <div>
+
+  <% if current_user %>
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-1">
+      <%= form_for [@product, @review] do |form| %>
+
+        <% if form.object.errors.any? %>
+          <div class="alert alert-danger">
+            <strong>The following errors prevented saving:</strong>
+            <ul>
+              <% form.object.errors.full_messages.each do |error| %>
+                <li><%= error %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= form.label :Name %>
+          <%= current_user.first_name %>
+        </div>
+        <div class="form-group">
+          <%= form.label :description %>
+          <%= form.text_area :description, class: 'form-control' %>
+        </div>
+
+
+        <div class="form-group">
+          <%= form.label :rating %>
+          <%= form.select :rating, [1,2,3,4,5], class: 'form-control' %>
+        </div>
+
+        <%= form.submit 'Send Review', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+
+
+  <span class="heading">Average Rating</span>
+  <% @average_rating.times do %>
+  <span class="fa fa-star checked"></span>
+  <% end %>
+  <% rest = 5 - @average_rating %>
+  <% rest.times do %>
+    <span class="far fa-star"></span>
+  <% end %>
+  <table class-"reviews">
+  <tr>
+  <th> Reviews</th>
+  </tr>
+  </table>
+
+
+<% @product.reviews.each do |review| %>
+
+<div>
+  <table>
+  <tr>
+  <div class='review'>
+    <div class="form-header">
+      <%= review.user.first_name + ' ' + review.user.last_name %>
+    </div>
+    <div class="form-review">
+      <%= review.description %>
+    </div>
+    <div class="form-footer">
+      <div>
+      <% review.rating.times do %>
+        <span class="fas fa-star checked"></span>
+      <% end %>
+      <% rest = 5 - review.rating %>
+      <% rest.times do %>
+        <span class="far fa-star"></span>
+      <% end %>
+      </div>
+
+      <span>
+      <% if current_user.id == review.user.id %>
+        <%= link_to fa_icon('trash'), [@product, review], class: 'btn btn-sm btn-danger', method: :delete, data: { confirm: "Are you sure?" } %>
+      <% end %>
+      </span>
+    </div>
+  </div>
+  <% end %>
+  </tr>
+  </table>
+  </div>
 
   </article>
 

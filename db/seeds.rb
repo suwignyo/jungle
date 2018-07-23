@@ -132,5 +132,35 @@ cat3.products.create!({
   price: 2_483.75
 })
 
+User.create!({
+  first_name: 'Becca',
+  last_name: 'S',
+  email: 'a@a.ca',
+  password_digest: '$2a$10$J1VtuP5uIO66o3tBAOniRum9uXhIibK7MlkSMTFPiKN9V3MeGpKa6',
+})
+
+
+prod1 = Product.find_or_create_by! id: 1
+puts 'creating reviews'
+Review.destroy_all
+
+prod1.reviews.create!({
+  description:  'This is a review',
+  rating: 4,
+  user_id: 1
+})
+
+prod1.reviews.create!({
+  description:  'This is a review1',
+  rating: 3,
+  user_id: 1
+})
+
+prod1.reviews.create!({
+  description:  'This is a review2',
+  rating: 5,
+  user_id: 1
+})
+
 
 puts "DONE!"
